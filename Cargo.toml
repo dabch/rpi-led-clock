@@ -9,3 +9,5 @@ edition = "2018"
 [dependencies]
 rust_rpi_led_matrix = { path = "../rust_rpi_led_matrix" }
 image = "0.23.1"
+reqwest = { version = "0.10", features = ["json", "blocking"] }
+serde = { version = "1.0.106", features = ["derive"] }
