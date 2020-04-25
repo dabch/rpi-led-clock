@@ -1,6 +1,8 @@
 extern crate image;
 extern crate chrono;
 
+mod api_query;
+
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
@@ -12,64 +14,9 @@ use chrono::{DateTime, Utc};
 use chrono::naive::NaiveDate;
 use std::path::Path;
 
+
 // TODO update the structs to reflect actual API data types
 // TODO move everything into separate modules
-
-#[derive(Serialize, Deserialize, Debug)]
-struct APIRes {
-    amount: f64,
-    base: String,
-    date: String,
-    rates: HashMap<String, f64>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct WeatherEntry {   
-    id: u64,
-    weather_state_name: String,
-    weather_state_abbr: String,
-    wind_direction_compass: String,
-    created: DateTime<Utc>,
-    applicable_date: NaiveDate,
-    min_temp: f64,
-    max_temp: f64,
-    the_temp: f64,
-    wind_speed: f64,
-    wind_direction: f64,
-    air_pressure: f64,
-    humidity: u32,
-    visibility: f64,
-    predictability: u32,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct WeatherParent {
-    title: String,
-    location_type: String,
-    woeid: u64,
-    latt_long: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-//#[derive(Deserialize)]
-struct WeatherRes {
-    #[serde(rename = "consolidated_weather")]
-    //#[serde(borrow)]
-    weather: Vec<WeatherEntry>,
-    #[serde(rename = "time")]
-    timestamp: DateTime<Utc>,
-    sun_rise: DateTime<Utc>,
-    sun_set: DateTime<Utc>,
-    timezone_name: String,
-    parent: WeatherParent,
-    #[serde(skip)]
-    sources: (),
-    title: String,
-    location_type: String,
-    woeid: u64,
-    latt_long: String,
-    timezone: String,
-}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Hello, world!");
@@ -99,7 +46,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //thread::sleep(time::Duration::from_millis(5000));
 
     let resp = reqwest::blocking::get("https://api.frankfurter.app/latest?from=EUR")?
-        .json::<APIRes>()?;
+        .json::<api_query::CurrencyRes>()?;
 
     println!("{:?}", resp);
 
@@ -123,7 +70,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     
     let weather = reqwest::blocking::get("https://www.metaweather.com/api/location/1118370/")?
-        .json::<WeatherRes>()?;
+        .json::<api_query::WeatherRes>()?;
 
     println!("{:?}", weather);
 
