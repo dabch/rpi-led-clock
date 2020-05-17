@@ -63,7 +63,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let f_awe = m::LedFont::new(Path::new("/home/pi/otf2bdf-3.1/fontawesome_32.bdf"));
 
     //canvas.draw_text(&f_5x7, 0, 7, 255, 255, 255, "€1=".to_string(), 0);
-    canvas.draw_text(&f_large, 0, 7, 255, 255, 255, format!("¥{}", yen), 0);
+    canvas.draw_text(&f_large, 0, 7, 255, 255, 255, format!("↑¥{:.0}", yen), 0);
     //canvas.draw_text(&f_awe, 0, 18, 255, 255, 0, "".to_string(), 0);
     //canvas.draw_text(&f_awe, 10*4, 19, 255, 255, 0, "".to_string(), 0);
     //canvas.vertical_draw_text(f, 16, 16, 255, 255, 255, "Test".to_string(), 0);
@@ -77,16 +77,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let s = weather.weather[1].weather_state_abbr.to_string();
 
     println!("images/medium/{}.ico", s);
-    let image = image::open(format!("images/medium/{}.ico", s)).unwrap();
-    canvas.show_image(&image, 39, 1);
+    let image = image::open(format!("images/small/{}.ico", s)).unwrap();
+    canvas.show_image(&image, 47, 1);
 
     let temp_min = weather.weather[1].min_temp;
     let temp_max = weather.weather[1].max_temp;
     let temp_str = format!("{:>2.0}/{:>2.0}", temp_min, temp_max);
     println!("{}", temp_str);
-    canvas.draw_text(&f_4x6, 64 - 4 * 5 - 3, 31, 0, 0, 255, format!("{:>2.0}", temp_min), 0);
-    canvas.draw_text(&f_4x6, 64 - 4 * 3 - 2, 31, 255, 255, 255, "-".to_string(), 0);
-    canvas.draw_text(&f_4x6, 64 - 4 * 2 - 2, 31, 255, 0, 0, format!("{:>2.0}", temp_max), 0);
+    canvas.draw_text(&f_4x6, 38, 12, 0, 0, 255, format!("{:>2.0}", temp_min), 0);
+    //canvas.draw_text(&f_4x6, , 31, 255, 255, 255, "-".to_string(), 0);
+    canvas.draw_text(&f_4x6, 38, 6, 255, 0, 0, format!("{:>2.0}", temp_max), 0);
 
     let canvas = matrix.swap(canvas);
     thread::sleep(std::time::Duration::from_millis(100000));
