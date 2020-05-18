@@ -1,4 +1,4 @@
-use chrono::{Utc, DateTime};
+use chrono::{Local, DateTime};
 use chrono::naive::NaiveDate;
 use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
@@ -17,7 +17,7 @@ pub struct WeatherEntry {
     pub weather_state_name: String,
     pub weather_state_abbr: String,
     pub wind_direction_compass: String,
-    pub created: DateTime<Utc>,
+    pub created: DateTime<Local>,
     pub applicable_date: NaiveDate,
     pub min_temp: f64,
     pub max_temp: f64,
@@ -45,9 +45,9 @@ pub struct WeatherRes {
     //#[serde(borrow)]
     pub weather: Vec<WeatherEntry>,
     #[serde(rename = "time")]
-    pub timestamp: DateTime<Utc>,
-    pub sun_rise: DateTime<Utc>,
-    pub sun_set: DateTime<Utc>,
+    pub timestamp: DateTime<Local>,
+    pub sun_rise: DateTime<Local>,
+    pub sun_set: DateTime<Local>,
     pub timezone_name: String,
     pub parent: WeatherParent,
     #[serde(skip)]
